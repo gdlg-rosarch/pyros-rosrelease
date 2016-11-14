@@ -16,6 +16,9 @@ with open('pyros/_version.py') as vf:
 # $ python setup.py publish
 # => TODO : try to do a simpler "release" command
 
+# TODO : command to retrieve extra ROS stuff from a third party release repo ( for ROS devs ). useful in dev only so maybe "rosdevelop" ? or via catkin_pip ?
+# TODO : command to release to Pip and ROS (bloom) same version one after the other...
+
 
 # Clean way to add a custom "python setup.py <command>"
 # Ref setup.py command extension : https://blog.niteoweb.com/setuptools-run-custom-code-in-setup-py/
@@ -64,7 +67,7 @@ class PublishCommand(setuptools.Command):
 
     def run(self):
         """runner"""
-
+        # TODO : clean build/ and dist/ before building...
         subprocess.check_call("python setup.py sdist", shell=True)
         subprocess.check_call("python setup.py bdist_wheel", shell=True)
         # OLD way:
@@ -88,9 +91,10 @@ setuptools.setup(name='pyros',
         'pyros',
         'pyros.tests',
         'pyros.baseinterface',
-        'pyros.mockinterface',
-        'pyros.mockinterface.tests',
         'pyros.rosinterface',
+        'pyros.rosinterface.api',
+        'pyros.rosinterface.mock',
+        'pyros.rosinterface.mock.tests',
         'pyros.rosinterface.tests',
         'pyros.rosinterface.rostests',
         'pyros.zmpinterface',
@@ -107,8 +111,8 @@ setuptools.setup(name='pyros',
         'tblib',  # this might not always install six (latest version does not)
         'six',
         'pyzmq',
-        'pyzmp==0.0.14',  # lets be rigorous since we are working on both at the same time...
-        'pyros_setup>=0.1.3',  # Careful : pyros-setup < 0.0.8 might already be installed as a deb in /opt/ros/indigo/lib/python2.7/dist-packages/
+        'pyzmp>=0.0.14',  # lets match the requirement in package.xml (greater than)
+        'pyros_setup>=0.1.5',  # Careful : pyros-setup < 0.0.8 might already be installed as a deb in /opt/ros/indigo/lib/python2.7/dist-packages/
         'pyros_config>=0.1.4',
         'nose>=1.3.7',
         'mock==1.0.1',  # old mock to be compatible with trusty versions
