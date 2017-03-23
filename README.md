@@ -1,3 +1,26 @@
+## pyros (jade) - 0.3.2-0
+
+The packages in the `pyros` repository were released into the `jade` distro by running `/usr/bin/bloom-release --rosdistro jade --track jade pyros` on `Thu, 23 Mar 2017 06:23:11 -0000`
+
+The `pyros` package was released.
+
+Version of package(s) in repository `pyros`:
+
+- upstream repository: https://github.com/asmodehn/pyros.git
+- release repository: https://github.com/asmodehn/pyros-rosrelease.git
+- rosdistro version: `0.3.1-0`
+- old version: `0.3.1-0`
+- new version: `0.3.2-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.25`
+- catkin_pkg version: `0.3.1`
+- rosdep version: `0.11.5`
+- rosdistro version: `0.6.1`
+- vcstools version: `0.1.39`
+
+
 ## pyros (kinetic) - 0.3.2-0
 
 The packages in the `pyros` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release --track kinetic --rosdistro kinetic pyros` on `Tue, 21 Mar 2017 10:12:14 -0000`
