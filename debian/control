@@ -1,0 +1,12 @@
+Source: ros-jade-pyros
+Section: misc
+Priority: extra
+Maintainer: AlexV <asmodehn@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), python-mock (>= 1.0.1), python-six (>= 1.5.2), ros-jade-catkin (>= 0.6.18), ros-jade-catkin-pip (>= 0.2.0), ros-jade-pyros-config (>= 0.1.3), ros-jade-pyros-test (>= 0.0.6), ros-jade-pyros-utils (>= 0.1.2), ros-jade-pyzmp (>= 0.0.14), ros-jade-rosnode (>= 1.11.19), ros-jade-rospy (>= 1.11.19), ros-jade-rosservice (>= 1.11.19), ros-jade-rostest (>= 1.11.19), ros-jade-rostopic (>= 1.11.19), ros-jade-rosunit (>= 1.11.12)
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-jade-pyros
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-mock (>= 1.0.1), python-six (>= 1.5.2), ros-jade-pyros-config (>= 0.1.3), ros-jade-pyros-utils (>= 0.1.2), ros-jade-pyzmp (>= 0.0.14), ros-jade-rospy (>= 1.11.19), ros-jade-std-msgs (>= 0.5.10), ros-jade-std-srvs (>= 1.11.2)
+Description: Provides Python to ROS multiprocess API, useful for using ROS from different multiprocess environment (think webserver, celery, etc.) while keeping both isolated.
