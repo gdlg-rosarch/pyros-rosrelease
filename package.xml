@@ -17,6 +17,8 @@ Provides Python to ROS multiprocess API, useful for using ROS from different mul
   <buildtool_depend version_gte="0.6.18">catkin</buildtool_depend>
   <build_depend version_gte="0.2.0">catkin_pip</build_depend>
 
+  <depend version_gte="0.4.2">pyros_common</depend>
+
   <export>
     <rosdoc config="rosdoc.yaml" />
   </export>
