@@ -17,7 +17,8 @@ if (CATKIN_ENABLE_TESTING)
     # Nose Tests
     ############
 
-    catkin_add_nosetests(pyros/tests)
+    # What kind of tests could be generic
+    #catkin_add_nosetests(pyros/tests)
     catkin_add_nosetests(pyros/server/tests)
     catkin_add_nosetests(pyros/client/tests)
 
