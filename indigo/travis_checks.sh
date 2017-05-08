@@ -24,31 +24,14 @@ cmake .. -DCMAKE_INSTALL_PREFIX=./install
 if [ "$ROS_FLOW" == "devel" ]; then
     make -j1
     source devel/setup.bash
-    echo PYTHONPATH = $PYTHONPATH
-    rospack profile
     make -j1 tests
     make -j1 run_tests
     catkin_test_results .
 elif [ "$ROS_FLOW" == "install" ]; then
     make -j1 install
     source install/setup.bash
-    echo PYTHONPATH = $PYTHONPATH
     rospack profile
 fi
 
-
-# In ALL Cases
-python -m nose pyros.rosinterface.mock.tests -s
-python -m nose pyros.rosinterface.tests -s
-
-# Careful with process conflicting here
-python -m nose pyros.rosinterface.rostests.testService -s
-python -m nose pyros.rosinterface.rostests.testStringPublisher -s
-python -m nose pyros.rosinterface.rostests.testStringSubscriber -s
-python -m nose pyros.rosinterface.rostests.test_param_if_pool -s
-python -m nose pyros.rosinterface.rostests.test_service_if_pool -s
-python -m nose pyros.rosinterface.rostests.test_subscriber_if_pool -s
-python -m nose pyros.rosinterface.rostests.test_publisher_if_pool -s
-python -m nose pyros.rosinterface.rostests.testRosInterface -s
 
 python -m nose pyros.tests -s
