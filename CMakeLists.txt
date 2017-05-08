@@ -18,6 +18,8 @@ if (CATKIN_ENABLE_TESTING)
     ############
 
     catkin_add_nosetests(pyros/tests)
+    catkin_add_nosetests(pyros/server/tests)
+    catkin_add_nosetests(pyros/client/tests)
 
 endif()
 
