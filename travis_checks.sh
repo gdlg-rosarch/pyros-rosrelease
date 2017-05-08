@@ -30,5 +30,6 @@ if [ "$ROS_FLOW" == "devel" ]; then
 elif [ "$ROS_FLOW" == "install" ]; then
     make -j1 install
     source install/setup.bash
-    python -m nose pyros.tests -s
+    python -m nose pyros.client.tests -s
+    python -m nose pyros.server.tests -s
 fi
