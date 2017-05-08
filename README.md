@@ -1,3 +1,26 @@
+## pyros (indigo) - 0.4.0-1
+
+The packages in the `pyros` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --rosdistro indigo --track indigo pyros` on `Mon, 08 May 2017 02:57:03 -0000`
+
+The `pyros` package was released.
+
+Version of package(s) in repository `pyros`:
+
+- upstream repository: https://github.com/asmodehn/pyros.git
+- release repository: https://github.com/asmodehn/pyros-rosrelease.git
+- rosdistro version: `0.3.2-0`
+- old version: `0.4.0-0`
+- new version: `0.4.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.5.26`
+- catkin_pkg version: `0.3.1`
+- rosdep version: `0.11.5`
+- rosdistro version: `0.6.2`
+- vcstools version: `0.1.39`
+
+
 ## pyros (indigo) - 0.4.0-0
 
 The packages in the `pyros` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --rosdistro indigo --track indigo pyros --edit` on `Mon, 08 May 2017 02:26:33 -0000`
