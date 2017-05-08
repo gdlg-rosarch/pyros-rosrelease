@@ -15,7 +15,7 @@ tracks:
     devel_branch: null
     last_version: 0.3.2
     name: upstream
-    patches: null
+    patches: indigo
     release_inc: '0'
     release_repo_url: null
     release_tag: ros-:{version}
