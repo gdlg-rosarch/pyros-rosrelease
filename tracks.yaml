@@ -63,7 +63,7 @@ tracks:
     devel_branch: null
     last_version: 0.3.2
     name: upstream
-    patches: null
+    patches: kinetic
     release_inc: '0'
     release_repo_url: null
     release_tag: ros-:{version}
