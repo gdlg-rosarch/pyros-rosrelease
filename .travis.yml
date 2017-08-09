@@ -1,10 +1,11 @@
 sudo: required
-dist: trusty
 language: generic
+services:
+  - docker
 
 branches:
   except:
-    - /^rpm/kinetic/xenial/.*$/  # not testing rpm builds in trusty
+    - /^rpm/kinetic/xenial/.*$/  # not testing rpm builds in xenial
     - /^debian/kinetic/xenial/.*$/ # not testing pacakge building here (ROS buildfarm will do it)
 
   only:
@@ -16,30 +17,49 @@ branches:
 # Let the ros buildfarm check the actual deb package build.
 
 env:
+  global:
+    - CONTAINER_NAME=pyros_docker
   # This will check any ROS distro supported on this OS
   # checking devel and install separately so that they don't influence each other (dependencies, path, env, etc.)
-  - CI_ROS_DISTRO=kinetic ROS_FLOW=devel
-  - CI_ROS_DISTRO=kinetic ROS_FLOW=install
+  matrix:
+  - ROS_DISTRO=kinetic ROS_FLOW=devel
+  - ROS_DISTRO=kinetic ROS_FLOW=install
+
+before_install:
+  # Getting docker ros image
+  - docker pull ros:${ROS_DISTRO}-ros-core
+  # Running as daemon
+  - docker run --name ${CONTAINER_NAME} -d -t ros:${ROS_DISTRO}-ros-core /bin/bash | tee container.id
+  # Switching to use ros shadow fixed packages
+  - docker exec -ti ${CONTAINER_NAME} /bin/bash -c "sed -i.bak -e s,packages.ros.org/ros/ubuntu,packages.ros.org/ros-shadow-fixed/ubuntu, /etc/apt/sources.list.d/ros-latest.list"
+  # Checking current container
+  - docker ps -a
+  - docker exec -ti ${CONTAINER_NAME} hostname
+  - docker exec -ti ${CONTAINER_NAME} uname -a
+  - docker exec -ti ${CONTAINER_NAME} cat /etc/lsb-release
+
 
 install:
-# Add ROS repositories
-  - sudo sh -c 'echo "deb http://packages.ros.org/ros-shadow-fixed/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
-  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-  - sudo apt-get update
-# Install ROS base
-  - sudo apt-get install ros-$CI_ROS_DISTRO-ros-base -y
-# Install and initialize rosdep
-  - sudo apt-get install python-rosdep -y
-  - sudo `which rosdep` init
-  - rosdep update
-# Use rosdep to install pyros-setup's dependencies
-  - rosdep install --default-yes --from-paths ./ --rosdistro $CI_ROS_DISTRO
+  # refreshing packages
+  - docker exec -ti ${CONTAINER_NAME} apt-get update
+  # TMP Patch because rosdep doesnt declare a dependency to sudo yet (2016-08-25) and it doesnt come with xenial
+  - docker exec -ti ${CONTAINER_NAME} apt-get install sudo
+  - docker exec -ti ${CONTAINER_NAME} rosdep update
+  # copying local clone to the running container (volume is currently broken)
+  - docker cp . ${CONTAINER_NAME}:/git_clone
+  # Installing package dependencies
+  - docker exec -ti ${CONTAINER_NAME} rosdep install --default-yes --from-paths /git_clone --rosdistro $ROS_DISTRO
 
+# full ROS setup, build and test
 script:
-  # full ROS setup, build and test
-  # rospack find is TMP. debugging travis env here...
-  - source /opt/ros/$CI_ROS_DISTRO/setup.bash && rospack profile
-  - bash travis_checks.sh
+  - CONTAINER_ID=$(cat container.id)
+  - docker ps -a
+  - docker exec -ti ${CONTAINER_NAME} /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && rospack profile"
+  # Passing env vars here since passing in docker run currently breaks (2016-08-25)
+  - docker exec -ti ${CONTAINER_NAME} /bin/bash -c "export ROS_DISTRO=$ROS_DISTRO && export ROS_FLOW=$ROS_FLOW && bash /git_clone/travis_checks.bash"
+  - docker stop "${CONTAINER_ID}"
+
 
 notifications:
   email: false
+
